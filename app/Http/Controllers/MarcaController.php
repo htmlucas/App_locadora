@@ -21,7 +21,7 @@ class MarcaController extends Controller
     {
         $marcas = $this->marca->all(); // nao estamos acessando o metodo estatico de uma classe e sim acessando o metodo de um objeto
         //$marcas = Marca::all();
-        return $marcas;
+        return response()->json( $marcas,200);
     }
 
     /**
@@ -44,7 +44,7 @@ class MarcaController extends Controller
     {
         //$marca = Marca::create($request->all());
         $marca = $this->marca->create($request->all());
-        return $marca;
+        return response()->json($marca,201);
     }
 
     /**
@@ -56,7 +56,10 @@ class MarcaController extends Controller
     public function show($id)
     {
         $marca = $this->marca->find($id);
-        return $marca;
+        if($marca === null){
+            return response()->json(['erro' => 'Recurso pesquisado não existe'],404);
+        }
+        return response()->json($marca,200) ;
     }
 
     /**
@@ -81,8 +84,12 @@ class MarcaController extends Controller
     {
         //$marca->update($request->all());
         $marca = $this->marca->find($id);
+        if($marca === null){
+            return response()->json(['erro' => 'Impossivel realizar a atualização. O recurso solicitado não existe'],404);
+        }
+
         $marca->update($request->all());
-        return $marca;
+        return response()->json($marca,200);
     }
 
     /**
@@ -94,7 +101,10 @@ class MarcaController extends Controller
     public function destroy($id)
     {
         $marca = $this->marca->find($id);
+        if($marca === null){
+            return response()->json(['erro' => 'Impossivel realizar a exclusão. O recurso solicitado não existe'],404);
+        }
         $marca->delete();
-        return ['msg'=>'a marca foi removida'];
+        return response()->json(['msg'=>'a marca foi removida'],200);
     }
 }
