@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Requests\UpdateMarcaRequest;
+use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller
 {
@@ -49,9 +50,13 @@ class MarcaController extends Controller
 
         $request->validate($this->marca->regras(),$this->marca->feedback());
         //stateless
-
-
-        $marca = $this->marca->create($request->all());
+     
+        $imagem = $request->file('imagem');
+        $imagem_urn = $imagem->store('imagens','public'); // 2 parametros - nome do diretorio - o disco(default é o local)
+        $marca = $this->marca->create([
+            'nome' =>$request->nome,
+            'imagem' =>$imagem_urn
+        ]);
         return response()->json($marca,201);
     }
 
@@ -96,8 +101,36 @@ class MarcaController extends Controller
             return response()->json(['erro' => 'Impossivel realizar a atualização. O recurso solicitado não existe'],404);
         }
 
-        $request->validate($marca->regras(),$marca->feedback());
-        $marca->update($request->all());
+        if($request->method() === 'PATCH'){
+            $regrasDinamicas = array();
+
+            //percorrendo todas as regras definidas no Model
+            foreach($marca->regras() as $input => $regra){
+
+                //coletar apenas as regras aos parametros parciais
+                if(array_key_exists($input,$request->all())){
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+            
+            $request->validate($regrasDinamicas,$marca->feedback());
+        }else{
+            $request->validate($marca->regras(),$marca->feedback());
+        }
+        
+        //remove o antigo caso um novo tenha sido enviado no request
+        if($request->file('imagem')){
+            Storage::disk('public')->delete($marca->imagem);
+        }
+
+        $imagem = $request->file('imagem');
+        $imagem_urn = $imagem->store('imagens','public'); // 2 parametros - nome do diretorio - o disco(default é o local)
+        
+        $marca->update([
+            'nome' =>$request->nome,
+            'imagem' =>$imagem_urn
+        ]);
+        
         return response()->json($marca,200);
     }
 
@@ -110,9 +143,14 @@ class MarcaController extends Controller
     public function destroy($id)
     {
         $marca = $this->marca->find($id);
+
         if($marca === null){
             return response()->json(['erro' => 'Impossivel realizar a exclusão. O recurso solicitado não existe'],404);
         }
+
+         //remove o antigo 
+            Storage::disk('public')->delete($marca->imagem);
+        
         $marca->delete();
         return response()->json(['msg'=>'a marca foi removida'],200);
     }
