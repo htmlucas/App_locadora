@@ -20,7 +20,7 @@ class MarcaController extends Controller
      */
     public function index()
     {
-        $marcas = $this->marca->all(); // nao estamos acessando o metodo estatico de uma classe e sim acessando o metodo de um objeto
+        $marcas = $this->marca->with('modelos')->get(); // nao estamos acessando o metodo estatico de uma classe e sim acessando o metodo de um objeto
         //$marcas = Marca::all();
         return response()->json( $marcas,200);
     }
@@ -68,7 +68,7 @@ class MarcaController extends Controller
      */
     public function show($id)
     {
-        $marca = $this->marca->find($id);
+        $marca = $this->marca->with('modelos')->find($id);
         if($marca === null){
             return response()->json(['erro' => 'Recurso pesquisado não existe'],404);
         }
@@ -97,6 +97,7 @@ class MarcaController extends Controller
     {
         //$marca->update($request->all());
         $marca = $this->marca->find($id);
+
         if($marca === null){
             return response()->json(['erro' => 'Impossivel realizar a atualização. O recurso solicitado não existe'],404);
         }
@@ -122,14 +123,20 @@ class MarcaController extends Controller
         if($request->file('imagem')){
             Storage::disk('public')->delete($marca->imagem);
         }
-
+        
         $imagem = $request->file('imagem');
         $imagem_urn = $imagem->store('imagens','public'); // 2 parametros - nome do diretorio - o disco(default é o local)
         
-        $marca->update([
+        
+        #preencher o objeto marca com os dados do request
+        $marca->fill($request->all());
+        $marca->imagem = $imagem_urn;
+        $marca->save();
+
+        /* $marca->update([
             'nome' =>$request->nome,
             'imagem' =>$imagem_urn
-        ]);
+        ]); */
         
         return response()->json($marca,200);
     }
