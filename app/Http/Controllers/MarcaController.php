@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Requests\UpdateMarcaRequest;
+use App\Repositories\MarcaRepository;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
+
 
 class MarcaController extends Controller
 {
@@ -18,11 +22,36 @@ class MarcaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $marcas = $this->marca->with('modelos')->get(); // nao estamos acessando o metodo estatico de uma classe e sim acessando o metodo de um objeto
-        //$marcas = Marca::all();
-        return response()->json( $marcas,200);
+
+        $marcaRepository = new MarcaRepository($this->marca);
+
+        # atributos do model
+        if($request->has('atributos_modelo')){
+            $atributos_modelos = 'modelos:id,'.$request->atributos_modelo;  
+            #é necessario sempre trazer o id porque tem um relacionamento
+            $marcaRepository->selectAtributosRegistrosRelacionados($atributos_modelos);
+        }else{
+            $marcaRepository->selectAtributosRegistrosRelacionados('modelos');
+        }
+
+        # filtro
+        if($request->has('filtro')){
+            $marcaRepository->filtro($request->filtro);
+            
+        }
+
+        # atributos
+        if($request->has('atributos')){
+            $marcaRepository->selectAtributos($request->atributos);
+        }
+
+        // -------------------------------------------------------
+
+        
+        return response()->json($marcaRepository->getResultado(),200);
+
     }
 
     /**

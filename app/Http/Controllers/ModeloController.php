@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Modelo;
 use App\Http\Requests\StoreModeloRequest;
 use App\Http\Requests\UpdateModeloRequest;
+use App\Repositories\ModeloRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -21,24 +22,32 @@ class ModeloController extends Controller
      */
     public function index(Request $request)
     {
-        $modelos = array();
+        $modeloRepository = new ModeloRepository($this->modelo);
 
+        # atributos da marca
         if($request->has('atributos_marca')){
-            $atributos_marca = $request->atributos_marca; 
-            $modelos = $this->modelo->with('marca:id,'.$atributos_marca); 
+            $atributos_marca = 'marca:id,'.$request->atributos_marca;  
             #é necessario sempre trazer o id porque tem um relacionamento
+            $modeloRepository->selectAtributosRegistrosRelacionados($atributos_marca);
         }else{
-            $modelos = $this->modelo->with('marca');
+            $modeloRepository->selectAtributosRegistrosRelacionados('marca');
         }
+
+        # filtro
+        if($request->has('filtro')){
+            $modeloRepository->filtro($request->filtro);
+            
+        }
+
+        # atributos
         if($request->has('atributos')){
-            $atributos = $request->atributos; # -> id,nome,imagem,marca_id
-            $modelos = $modelos->selectRaw($atributos)->get(); 
-            #utilizando selectRAW o laravel vai conseguir ler a string de atributos e lidar da melhor forma
-            #na consulta de get no postman é necessario mandar marca_id junto para que o relacionamento apareça
-        }else{
-            $modelos = $modelos->get();
+            $modeloRepository->selectAtributos($request->atributos);
         }
-        return response()->json($modelos,200);
+
+        // -------------------------------------------------------
+
+        
+        return response()->json($modeloRepository->getResultado(),200);
     }
 
     /**
