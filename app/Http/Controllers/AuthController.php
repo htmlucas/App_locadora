@@ -16,7 +16,7 @@ class AuthController extends Controller
         if($token){ #usuario autenticado
             return response()->json(['token' => $token]);
         }else{ //erro de usuario ou senha
-            return response()->json(['erro' => 'usuario ou senha invalido'],403); #403 = forbiden = proibido (login invalido)
+            return response()->json(['erro' => 'usuario ou senha inválido'],403); #403 = forbiden = proibido (login invalido)
         }
 
             //retornar um jwt
