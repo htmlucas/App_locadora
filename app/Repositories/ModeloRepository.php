@@ -2,11 +2,7 @@
 
 namespace App\Repositories;
 
-
-Class ModeloRepository extends AbstractRepository{
-
-
+class ModeloRepository extends AbstractRepository {
 }
 
 ?>
-

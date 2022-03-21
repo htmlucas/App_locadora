@@ -2,12 +2,8 @@
 
 namespace App\Repositories;
 
-
-Class MarcaRepository extends AbstractRepository{
-
-
+class MarcaRepository extends AbstractRepository {
 
 }
 
 ?>
-
