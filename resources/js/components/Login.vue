@@ -1,5 +1,5 @@
 <template>
-
+    
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -42,7 +42,7 @@
                                         Login
                                     </button>
 
-
+                                
                                     <a class="btn btn-link" href="#">
                                         Esqueci a senha
                                     </a>
@@ -82,11 +82,12 @@
                     .then(response => response.json())
                     .then(data => {
                         if(data.token) {
-                            document.cookie = 'token='+data.token+';SameSite=Lax'
+                            document.cookie = 'token='+data.token
                         }
-                        //dar sequência no envio do form de autenticação por sessão
-                        e.target.submit()
                     })
+                
+                //dar sequência no envio do form de autenticação por sessão
+                e.target.submit()
             }
         }
     }
