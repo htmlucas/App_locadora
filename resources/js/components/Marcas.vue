@@ -33,9 +33,9 @@
                     <template v-slot:conteudo>
                         <table-component
                             :dados="marcas.data"
-                            :visualizar="{ visivel:true,dataToggle:'modal',dataTarget:'#modalMarcaVisualizar'}"
+                            :visualizar="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaVisualizar'}"
                             :atualizar="true"
-                            :remover="true"
+                            :remover="{visivel: true, dataToggle: 'modal', dataTarget: '#modalMarcaRemover'}"
                             :titulos="{
                                 id: {titulo: 'ID', tipo: 'texto'},
                                 nome: {titulo: 'Nome', tipo: 'texto'},
@@ -69,7 +69,7 @@
         </div>
 
 
-        <!-- inicio modal de marca -->
+        <!-- início do modal de inclusão de marca -->
         <modal-component id="modalMarca" titulo="Adicionar marca">
 
             <template v-slot:alertas>
@@ -98,20 +98,60 @@
                 <button type="button" class="btn btn-primary" @click="salvar()">Salvar</button>
             </template>
         </modal-component>
-        <!-- fim modal de marca -->
+        <!-- fim do modal de inclusão de marca -->
 
-        
-        <!-- inicio modal de visualizacao de marca -->
+        <!-- início do modal de visualização de marca -->
         <modal-component id="modalMarcaVisualizar" titulo="Visualizar marca">
-            <template v-slot:alertas>
-            </template>
+            <template v-slot:alertas></template>
             <template v-slot:conteudo>
-                TESTE
+                <input-container-component titulo="ID">
+                    <input type="text" class="form-control" :value="$store.state.item.id" disabled>
+                </input-container-component>
+
+                <input-container-component titulo="Nome da marca">
+                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
+                </input-container-component>
+
+                <input-container-component titulo="Imagem">
+                    <img :src="'storage/'+$store.state.item.imagem" v-if="$store.state.item.imagem">
+                </input-container-component>
+
+                <input-container-component titulo="Data de criação">
+                    <input type="text" class="form-control" :value="$store.state.item.created_at" disabled>
+                </input-container-component>
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
+        <!-- fim do modal de inclusão de marca -->
+
+
+        <!-- início do modal de remoção de marca -->
+        <modal-component id="modalMarcaRemover" titulo="Remover marca">
+            <template v-slot:alertas>
+                <alert-component tipo="success" titulo="Transacao realizada com sucesso" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'">
+
+                </alert-component>
+                <alert-component tipo="danger" titulo="Erro na transacao " :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'erro'">
+
+                </alert-component>
+            </template>
+            <template v-slot:conteudo v-if="$store.state.transacao.status != 'sucesso'">
+                <input-container-component titulo="ID">
+                    <input type="text" class="form-control" :value="$store.state.item.id" disabled>
+                </input-container-component>
+
+                <input-container-component titulo="Nome da marca">
+                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
+                </input-container-component>
+            </template>
+            <template v-slot:rodape>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" @click="remover()" v-if="$store.state.transacao.status != 'sucesso'">Remover</button>
+            </template>
+        </modal-component>
+        <!-- fim do modal de remoção de marca -->
     </div>
 </template>
 
@@ -142,40 +182,79 @@ import Paginate from './Paginate.vue'
                 transacaoStatus: '',
                 transacaoDetalhes: {},
                 marcas: { data: [] },
-                busca: {id: '',nome: ''}
+                busca: { id: '', nome: '' }
             }
         },
         methods: {
-            pesquisar(){
+            remover() {
+                let confirmacao = confirm('Tem certeza que deseja remover esse registro?')
+
+                if(!confirmacao) {
+                    return false;
+                }
+
+                let formData = new FormData();
+                formData.append('_method', 'delete')
+
+                let config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Autorization': this.token
+                    }
+                }
+
+                let url = this.urlBase + '/' + this.$store.state.item.id
+
+                
+
+                axios.post(url, formData, config)
+                    .then(response => {
+                        
+                        this.$store.state.transacao.status = 'sucesso'
+                        this.$store.state.transacao.mensagem = response.data.msg
+                        this.carregarLista()
+                    })
+                    .catch(errors => {
+                        
+                        this.$store.state.transacao.status = 'erro'
+                        this.$store.state.transacao.mensagem = errors.response.data.erro
+                    })
+
+            },
+            pesquisar() {
+                //console.log(this.busca)
+
                 let filtro = ''
 
-                for(let chave in this.busca){
+                for(let chave in this.busca) {
 
-                    if(this.busca[chave]){
-                        if(filtro != ''){
-                            filtro += ';'
+                    if(this.busca[chave]) {
+                        //console.log(chave, this.busca[chave])
+                        if(filtro != '') {
+                            filtro += ";"
                         }
+
                         filtro += chave + ':like:' + this.busca[chave]
                     }
                 }
-                if(filtro != ''){
+                if(filtro != '') {
                     this.urlPaginacao = 'page=1'
                     this.urlFiltro = '&filtro='+filtro
-                }else{
+                } else {
                     this.urlFiltro = ''
                 }
+
                 this.carregarLista()
-                
             },
             paginacao(l) {
                 if(l.url) {
-                    this.urlPaginacao = l.url.split('?')[1] // atribuindo a urlPaginacao o valor contido depois da ? ao clicar nos botoes de pagina exemplo: page=2
+                    //this.urlBase = l.url //ajustando a url de consulta com o parâmetro de página
+                    this.urlPaginacao = l.url.split('?')[1]
                     this.carregarLista() //requisitando novamente os dados para nossa API
                 }
             },
             carregarLista() {
 
-                let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
                 let config = {
                     headers: {
                         'Accept': 'application/json',
@@ -183,7 +262,9 @@ import Paginate from './Paginate.vue'
                     }
                 }
 
-                axios.get(url)
+                let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
+                console.log(url)
+                axios.get(url, config)
                     .then(response => {
                         this.marcas = response.data
                         //console.log(this.marcas)

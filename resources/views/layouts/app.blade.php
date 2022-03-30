@@ -35,20 +35,20 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Clientes</a>
+                                <a class="nav-link" href="#">Clientes</a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">Locações</a>
+                                <a class="nav-link" href="#">Locações</a>
                             </li>
+
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Veículos</a>
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Veículos</a>
                                 <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">Carros</a>
+                                    <a class="dropdown-item" href="#">Carros</a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{route('marcas')}}" class="dropdown-item">Marcas</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="#" class="dropdown-item">Modelos</a>
+                                    <a class="dropdown-item" href="{{ route('marcas') }}">Marcas</a>
+                                    <a class="dropdown-item" href="#">Modelos</a>
                                 </div>
                             </li>
                         @endauth
@@ -91,8 +91,8 @@
                     </ul>
                 </div>
             </div>
-        </nav> 
-
+        </nav>
+        
         @auth
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
