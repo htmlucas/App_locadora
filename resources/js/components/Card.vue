@@ -1,6 +1,12 @@
 <template>
     <div class="card mb-3">
-        <div class="card-header">.: {{titulo}}</div>
+        <div class="card-header">
+            <div class="">.: {{titulo}}</div>
+            <div class="">
+                <slot name="filtro"></slot>
+            </div>
+            
+        </div>
 
         <div class="card-body">
             <slot name="conteudo"></slot>

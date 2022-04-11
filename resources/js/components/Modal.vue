@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" :id="id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div :class="mudarSize(modalSize)">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">{{titulo}}</h5>
@@ -22,6 +22,11 @@
 
 <script>
     export default {
-        props: ['id', 'titulo']
+        props: ['id', 'titulo','modalSize'],
+        methods:{
+            mudarSize(x){
+                return 'modal-dialog '+ x
+            }
+        }
     }
 </script>

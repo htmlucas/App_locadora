@@ -3,6 +3,11 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <card-component titulo="Relação de Modelos">
+                    <template v-slot:filtro>
+                        <input-container-component titulo="Nome do modelo" id="inputNome" id-help="inputNomeHelp" texto-ajuda="Informe o nome do modelo">
+                            <input type="text" class="form-control" id="inputNome" aria-describedby="inputNomeHelp" placeholder="Nome do modelo" v-model="nomeModelo">
+                        </input-container-component>
+                    </template>
                     <template v-slot:conteudo>
                         <table-component 
                             :dados="modelos.data"
@@ -13,7 +18,7 @@
                                 id: {titulo: 'ID', tipo: 'texto'},
                                 marca_id: {titulo: 'Marca ID', tipo: 'texto'},
                                 marca: {titulo:'Nome Marca',tipo:'modelo'},
-                                nome: {titulo: 'Nome', tipo: 'texto'},
+                                nome: {titulo: 'Nome Modelo', tipo: 'texto'},
                                 imagem: {titulo: 'Imagem', tipo: 'imagem'},
                                 numero_portas: {titulo: 'Numero de Portas', tipo: 'texto'},
                                 lugares: {titulo: 'Qtº de Lugares', tipo: 'texto'},
@@ -45,7 +50,7 @@
          </div>
 
          <!-- início do modal de inclusão de modelo -->
-        <modal-component id="modalModelo" titulo="Adicionar modelo">
+        <modal-component id="modalModelo" titulo="Adicionar modelo" modalSize="modal-xl">
 
             <template v-slot:alertas>
                 <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Cadastro realizado com sucesso" v-if="transacaoStatus == 'adicionado'"></alert-component>
@@ -195,7 +200,7 @@
                 transacaoStatus: '',
                 transacaoDetalhes: {},
                 modelos: { data: [] },
-                busca: { id: '', nome: '' }
+                busca: { id: '', nome: '' },
             }
         },
         methods:{
@@ -211,6 +216,32 @@
                         console.log(errors)
                     })
                 },
+        },
+        watch:{
+            nomeModelo(valorNovo){
+
+                let filtro = ''
+                console.log(valorNovo)
+                for(let chave in this.busca) {
+
+                    if(this.busca[chave]) {
+                        //console.log(chave, this.busca[chave])
+                        if(filtro != '') {
+                            filtro += ";"
+                        }
+                    
+                        filtro += chave + ':like:' + this.busca[chave]
+                    }
+                }
+                if(filtro != '') {
+                    this.urlPaginacao = 'page=1'
+                    this.urlFiltro = '&filtro='+filtro
+                } else {
+                    this.urlFiltro = ''
+                }
+
+                this.carregarLista()
+            }
         },
         mounted() {
             this.carregarLista()
