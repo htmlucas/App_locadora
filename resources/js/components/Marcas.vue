@@ -259,10 +259,9 @@ import Paginate from './Paginate.vue'
                 //console.log(this.busca)
 
                 let filtro = ''
-                console.log('marcas teste')
-                console.log(this.busca)
-                for(let chave in this.busca) {
 
+                for(let chave in this.busca) {
+                    
                     if(this.busca[chave]) {
                         //console.log(chave, this.busca[chave])
                         if(filtro != '') {

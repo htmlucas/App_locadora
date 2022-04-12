@@ -4,9 +4,16 @@
             <div class="col-md-12">
                 <card-component titulo="Relação de Modelos">
                     <template v-slot:filtro>
-                        <input-container-component titulo="Nome do modelo" id="inputNome" id-help="inputNomeHelp" texto-ajuda="Informe o nome do modelo">
-                            <input type="text" class="form-control" id="inputNome" aria-describedby="inputNomeHelp" placeholder="Nome do modelo" v-model="nomeModelo">
-                        </input-container-component>
+                    <div class="d-flex justify-content-end">                     
+                        <div class="form-inline">
+                            <div class="form-group mx-sm-3 ">
+                                <input-container-component titulo="Pesquisar modelos" id="inputNome" >
+                                    <input type="text" class="form-control m-2" id="inputNome" aria-describedby="inputNomeHelp" placeholder="Nome do modelo" v-model="nomeModelo">
+                                </input-container-component>
+                            </div>
+                        </div>
+                    </div>
+                       
                     </template>
                     <template v-slot:conteudo>
                         <table-component 
@@ -81,7 +88,7 @@
         <!-- fim do modal de inclusão de modelo -->
 
         <!-- início do modal de visualização de modelo -->
-        <modal-component id="modalModeloVisualizar" titulo="Visualizar Modelo">
+        <modal-component id="modalModeloVisualizar" titulo="Visualizar Modelo" modalSize="modal-lg">
             <template v-slot:alertas></template>
             <template v-slot:conteudo>
                 <input-container-component titulo="ID">
@@ -221,8 +228,11 @@
             nomeModelo(valorNovo){
 
                 let filtro = ''
-                console.log(valorNovo)
+                this.busca.nome = valorNovo;
+
+
                 for(let chave in this.busca) {
+
 
                     if(this.busca[chave]) {
                         //console.log(chave, this.busca[chave])
@@ -230,9 +240,10 @@
                             filtro += ";"
                         }
                     
-                        filtro += chave + ':like:' + this.busca[chave]
+                        filtro += chave + ':like:' + this.busca[chave] + '%'
                     }
                 }
+    
                 if(filtro != '') {
                     this.urlPaginacao = 'page=1'
                     this.urlFiltro = '&filtro='+filtro
