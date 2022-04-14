@@ -1,8 +1,10 @@
 <template>
-    <div class="form-group">
-        <label :for="id" class="form-label">{{titulo}}</label>
+    <div class="form-row">
+        <label :for="id" class="col col-form-label">{{titulo}}</label>
         <slot></slot>
-        <div :id="idHelp" class="form-text text-muted">{{textoAjuda}}</div>
+        <div class="col-auto">
+            <div :id="idHelp" class="form-text text-muted">{{textoAjuda}}</div>
+        </div>
     </div>
 
 </template>

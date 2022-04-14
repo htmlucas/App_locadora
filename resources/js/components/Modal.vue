@@ -9,8 +9,10 @@
                     </button>
                 </div>
             <div class="modal-body">
-                <slot name="alertas"></slot>
-                <slot name="conteudo"></slot>
+                <div class="container">
+                    <slot name="alertas"></slot>
+                    <slot name="conteudo"></slot>
+                </div>
             </div>
                 <div class="modal-footer">
                     <slot name="rodape"></slot>

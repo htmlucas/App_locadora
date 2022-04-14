@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Marca extends Model
 {
-    use SoftDeletes;
+    //use SoftDeletes;
     use HasFactory;
     protected $fillable = ['nome', 'imagem'];
 

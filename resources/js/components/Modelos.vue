@@ -57,7 +57,7 @@
          </div>
 
          <!-- início do modal de inclusão de modelo -->
-        <modal-component id="modalModelo" titulo="Adicionar modelo" modalSize="modal-xl">
+        <modal-component id="modalModelo" titulo="Adicionar modelo" modalSize="modal-lg">
 
             <template v-slot:alertas>
                 <alert-component tipo="success" :detalhes="transacaoDetalhes" titulo="Cadastro realizado com sucesso" v-if="transacaoStatus == 'adicionado'"></alert-component>
@@ -65,19 +65,61 @@
             </template>
 
             <template v-slot:conteudo>
-                <div class="form-group">
-                    <input-container-component titulo="Nome do modelo" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome do modelo">
-                        <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome do modelo" v-model="nomeModelo">
+
+                    <div class="col form-group">
+                        <input-container-component titulo="Marca" id="idMarca" id-help="idMarcaHelp" texto-ajuda="Informe a marca">
+                            <select  class="form-select form-control" aria-label=".form-select-sm example" id="idMarca"  v-model="idMarca">
+                                <option selected >Abra o menu para selecionar a marca</option>
+                                <option v-for="m in marcas.data" :value="m.id" :key="m.id">{{m.nome}}</option>
+                            </select>
+                        </input-container-component>
+                    </div>
+
+                    <div class="col form-group">
+                        <input-container-component titulo="Nome do modelo" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome do modelo">
+                            <input type="text" class="form-control" aria-describedby="novoNomeHelp" placeholder="Nome do modelo" v-model="novonomeModelo">
+                        </input-container-component>
+                    </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+                        <input type="file" class="form-control" id="novoImagem" aria-describedby="novoImagemHelp" @change="carregarImagem($event)">
                     </input-container-component>
-                    {{ nomeModelo }}
                 </div>
 
-                <div class="form-group">
-                    <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
-                        <input type="file" class="form-control-file" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
+                <div class="col form-group">
+                    <input-container-component titulo="Numero de Portas" id="numero_portas" id-help="numero_portasHelp" texto-ajuda="Informe o numero de portas">
+                        <input type="number" class="form-control" aria-describedby="numero_portasHelp" placeholder="Numero de portas" v-model="numero_portas" min="1" max="6">
                     </input-container-component>
-                    {{ arquivoImagem }}
                 </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Numero de Lugares" id="lugares" id-help="lugaresHelp" texto-ajuda="Informe o numero de lugares">
+                        <input type="number" class="form-control" aria-describedby="lugaresHelp" placeholder="Numero de lugares" v-model="lugares">
+                    </input-container-component>
+                </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Air Bag" id="air_bag" id-help="air_bagHelp" texto-ajuda="Informe se tem Air Bags">
+                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="air_bag">
+                            <option selected >Abra o menu para selecionar </option>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                
+                <div class="col form-group">
+                    <input-container-component titulo="ABS" id="abs" id-help="absHelp" texto-ajuda="Informe se tem ABS">
+                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="abs">
+                            <option selected >Abra o menu para selecionar</option>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
             </template>
 
             <template v-slot:rodape>
@@ -100,11 +142,11 @@
                 </input-container-component>
 
                 <input-container-component titulo="Marca">
-                    <input type="text" class="form-control" :value="$store.state.item.marca.nome" disabled>
+                    <input type="text" class="form-control" value="" disabled>
                 </input-container-component>
 
                 <input-container-component titulo="Modelo">
-                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
+                    <input type="text" class="form-control" value="" disabled>
                 </input-container-component>
 
 
@@ -147,7 +189,7 @@
                 </input-container-component>
 
                 <input-container-component titulo="Nome da modelo">
-                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
+                    <input type="text" class="form-control" value="" disabled>
                 </input-container-component>
             </template>
             <template v-slot:rodape>
@@ -168,7 +210,7 @@
             <template v-slot:conteudo>
                 <div class="form-group">
                     <input-container-component titulo="Nome da modelo" id="atualizarNome" id-help="atualizarNomeHelp" texto-ajuda="Informe o nome da modelo">
-                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da modelo" v-model="$store.state.item.nome">
+                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da modelo" >
                     </input-container-component>
                 </div>
 
@@ -200,17 +242,69 @@
         data() {
             return {
                 urlBase: 'http://localhost:8000/api/v1/modelo',
+                urlBaseMarcas : 'http://localhost:8000/api/v1/marca',
                 urlPaginacao: '',
                 urlFiltro: '',
+                idMarca: '',
+                novonomeModelo: '',
                 nomeModelo: '',
                 arquivoImagem: [],
+                numero_portas: '',
+                lugares: '',
+                air_bag: '',
+                abs: '',
                 transacaoStatus: '',
                 transacaoDetalhes: {},
                 modelos: { data: [] },
+                marcas: { data: [] },
+                all_marcas: [],
                 busca: { id: '', nome: '' },
             }
         },
         methods:{
+            carregarMarcas() {
+                
+               let url = this.urlBaseMarcas + '?' + this.urlPaginacao + this.urlFiltro
+                
+                axios.get(url)
+                    .then(response => {
+                        this.marcas = response.data
+
+                        
+                        let urls = []
+                        
+                        let links = {}
+
+                        this.marcas.links.forEach(campo =>{                          
+
+                            links[campo] = campo.url
+                            urls.push(links[campo])
+                        })
+
+                        if(this.marcas.current_page != this.marcas.last_page ){
+
+                            for(let i = 1;i< (urls.length - 1);i++){
+                                url = urls[i]
+
+                                console.log(url)
+
+                                axios.get(url)
+                                    .then(response => {
+                                    this.all_marcas.push(response.data.data)
+                                }).catch(errors => {
+                                    console.log(errors)
+                                })
+
+                                
+                            }
+                        }
+                        this.marcas.data.push(this.all_marcas)
+
+                    })
+                    .catch(errors => {
+                        console.log(errors)
+                    })
+            },
             carregarLista() {
 
                 let url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
@@ -223,7 +317,54 @@
                         console.log(errors)
                     })
                 },
+            carregarImagem(e) {
+                this.arquivoImagem = e.target.files
+            },
+            salvar() {
+                console.log(this.nomeMarca, this.arquivoImagem[0], this.idMarca)
+
+                let formData = new FormData();
+                formData.append('marca_id', this.idMarca)
+                formData.append('nome', this.novonomeModelo)
+                formData.append('imagem', this.arquivoImagem[0])
+                formData.append('numero_portas', this.numero_portas)
+                formData.append('lugares', this.lugares)
+                formData.append('air_bag', this.air_bag)
+                formData.append('abs', this.abs)
+
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+
+                axios.post(this.urlBase, formData, config)
+                    .then(response => {
+                        this.transacaoStatus = 'adicionado'
+                        this.transacaoDetalhes = {
+                            mensagem: 'ID do registro: ' + response.data.id
+                        }
+                        
+                        console.log(response)
+                    })
+                    .catch(errors => {
+                        this.transacaoStatus = 'erro'
+                        this.transacaoDetalhes = {
+                            mensagem: errors.response.data.message,
+                            dados: errors.response.data.errors
+                        }
+                        //errors.response.data.message
+                    })
+                },
+            paginacao(l) {
+                if(l.url) {
+                    //this.urlBase = l.url //ajustando a url de consulta com o parâmetro de página
+                    this.urlPaginacao = l.url.split('?')[1]
+                    this.carregarLista() //requisitando novamente os dados para nossa API
+                }
+            },
         },
+            
         watch:{
             nomeModelo(valorNovo){
 
@@ -256,6 +397,7 @@
         },
         mounted() {
             this.carregarLista()
+            this.carregarMarcas()
         }
     }
 </script>

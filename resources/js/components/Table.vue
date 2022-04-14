@@ -46,8 +46,7 @@
         computed: {
             dadosFiltrados() {
                 
-                
-
+                        
                 let campos = Object.keys(this.titulos)
                 let dadosFiltrados = []
                 
