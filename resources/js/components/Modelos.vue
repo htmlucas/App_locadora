@@ -275,31 +275,39 @@
                         
                         let links = {}
 
-                        this.marcas.links.forEach(campo =>{                          
+                       
 
-                            links[campo] = campo.url
-                            urls.push(links[campo])
-                        })
+                        if(this.marcas.current_page != this.marcas.last_page ){ // para eu verificar se estou ja na ultima pagina
 
-                        if(this.marcas.current_page != this.marcas.last_page ){
+                             this.marcas.links.forEach(campo =>{                          
 
-                            for(let i = 1;i< (urls.length - 1);i++){
+                                links[campo] = campo.url
+                                urls.push(links[campo])
+                            })
+
+                            for(let i = 2;i< (urls.length - 1);i++){ // Aqui eu pego os dados de cada página em marcas, o retorno é quantidade de paginas com a quantidade de dados em cada uma delas
                                 url = urls[i]
 
-                                console.log(url)
+                                //console.log(url)
+                                //console.log(i)
 
                                 axios.get(url)
                                     .then(response => {
-                                    this.all_marcas.push(response.data.data)
+                                        //console.log('Página:'+i)
+                                        for(let z = 0; z< response.data.data.length;z++){ // aqui eu pego separadamente cada dado da página e adiciono a marcas
+                                            //console.log(z)
+                                            //console.log(response.data.data[z])
+                                            this.marcas.data.push(response.data.data[z])
+                                        }
                                 }).catch(errors => {
                                     console.log(errors)
                                 })
 
-                                
+                                //console.log(this.marcas)  
                             }
                         }
-                        this.marcas.data.push(this.all_marcas)
-
+                        
+                        
                     })
                     .catch(errors => {
                         console.log(errors)
@@ -345,7 +353,8 @@
                             mensagem: 'ID do registro: ' + response.data.id
                         }
                         
-                        console.log(response)
+                        //console.log(response)
+                        this.carregarLista()
                     })
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
