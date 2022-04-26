@@ -124,10 +124,10 @@ class CarroController extends Controller
                 }
             }
             
-            $request->validate($regrasDinamicas);
+            $request->validate($regrasDinamicas, $carro->feedback());
 
         } else {
-            $request->validate($carro->rules());
+            $request->validate($carro->rules(), $carro->feedback());
         }
         
         $carro->fill($request->all());

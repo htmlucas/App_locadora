@@ -191,7 +191,7 @@
                 </input-container-component>
 
                 <input-container-component titulo="Nome da modelo">
-                    <input type="text" class="form-control" value="" disabled>
+                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
                 </input-container-component>
             </template>
             <template v-slot:rodape>
