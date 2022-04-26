@@ -131,23 +131,33 @@ class ModeloController extends Controller
                 }
             }
             
-            $request->validate($regrasDinamicas);
+            $request->validate($regrasDinamicas,$modelo->feedback());
 
         } else {
-            $request->validate($modelo->rules());
+            $request->validate($modelo->rules(),$modelo->feedback());
         }
+
+        //preenchendo o objeto $marca com todos os dados do request
+        $modelo->fill($request->all());
         
         //remove o arquivo antigo caso um novo arquivo tenha sido enviado no request
         if($request->file('imagem')) {
+            //remove o arquivo antigo
             Storage::disk('public')->delete($modelo->imagem);
+
+            $imagem = $request->file('imagem');
+            $imagem_urn = $imagem->store('imagens/modelos', 'public');
+            $modelo->imagem = $imagem_urn;
         }
-        
-        $imagem = $request->file('imagem');
+        $modelo->save();
+        return response()->json($modelo, 200);
+
+        /* $imagem = $request->file('imagem');
         $imagem_urn = $imagem->store('imagens/modelos', 'public');
 
         $modelo->fill($request->all());
-        $modelo->imagem = $imagem_urn;
-        $modelo->save();
+        $modelo->imagem = $imagem_urn; */
+       
         /*
         $modelo->update([
             'marca_id' => $request->marca_id,
@@ -159,7 +169,7 @@ class ModeloController extends Controller
             'abs' => $request->abs
         ]);
         */
-        return response()->json($modelo, 200);
+       
     }
 
     /**

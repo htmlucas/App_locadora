@@ -215,9 +215,10 @@ import Paginate from './Paginate.vue'
                         'Content-Type': 'multipart/form-data'
                     }
                 }
-
+            
                 axios.post(url, formData, config)
                     .then(response => {
+
                         this.$store.state.transacao.status = 'sucesso'
                         this.$store.state.transacao.mensagem = 'Registro de marca atualizado com sucesso!'
 

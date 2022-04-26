@@ -45,6 +45,8 @@
         },
         computed: {
             dadosFiltrados() {
+
+                console.log(this.dados)
                 
                         
                 let campos = Object.keys(this.titulos)

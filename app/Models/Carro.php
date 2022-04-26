@@ -18,6 +18,12 @@ class Carro extends Model
             'km' => 'required'
         ];
     }
+    public function feedback() {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'modelo_id.exists' => 'O modelo não existe',
+        ];
+    }
 
     public function modelo() {
         return $this->belongsTo('App\Models\Modelo');

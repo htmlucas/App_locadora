@@ -45,7 +45,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Veículos</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Carros</a>
+                                    <a class="dropdown-item" href="{{ route('carro') }}">Carros</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('marcas') }}">Marcas</a>
                                     <a class="dropdown-item" href="{{route('modelos')}}">Modelos</a>

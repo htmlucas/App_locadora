@@ -36,7 +36,7 @@ class CarroController extends Controller
             $carroRepository->selectAtributos($request->atributos);
         } 
 
-        return response()->json($carroRepository->getResultado(), 200);
+        return response()->json($carroRepository->getResultadoPaginado(3), 200);
     }
 
     /**
@@ -57,7 +57,7 @@ class CarroController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->carro->rules());
+        $request->validate($this->carro->rules(),$this->carro->feedback());
 
         $carro = $this->carro->create([
             'modelo_id' => $request->modelo_id,

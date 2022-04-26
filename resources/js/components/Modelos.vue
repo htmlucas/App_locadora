@@ -3,18 +3,19 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <card-component titulo="Relação de Modelos">
+
                     <template v-slot:filtro>
-                    <div class="d-flex justify-content-end">                     
-                        <div class="form-inline">
-                            <div class="form-group mx-sm-3 ">
-                                <input-container-component titulo="Pesquisar modelos" id="inputNome" >
-                                    <input type="text" class="form-control m-2" id="inputNome" aria-describedby="inputNomeHelp" placeholder="Nome do modelo" v-model="nomeModelo">
-                                </input-container-component>
+                        <div class="d-flex justify-content-end">                     
+                            <div class="form-inline">
+                                <div class="form-group mx-sm-3 ">
+                                    <input-container-component titulo="Pesquisar modelos" id="inputNome" >
+                                        <input type="text" class="form-control m-2" id="inputNome" aria-describedby="inputNomeHelp" placeholder="Nome do modelo" v-model="nomeModelo">
+                                    </input-container-component>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                       
+                        </div>                       
                     </template>
+
                     <template v-slot:conteudo>
                         <table-component 
                             :dados="modelos.data"
@@ -34,6 +35,7 @@
                             }"
                         ></table-component>
                     </template>
+                    
                     <template v-slot:rodape>
                         <div class="row">
                             <div class="col-10">
@@ -200,7 +202,7 @@
         <!-- fim do modal de remoção de modelo -->
 
         <!-- início do modal de atualização de modelo -->
-        <modal-component id="modalModeloAtualizar" titulo="Atualizar modelo">
+        <modal-component id="modalModeloAtualizar" titulo="Atualizar modelo"  modalSize="modal-lg">
 
             <template v-slot:alertas>
                 <alert-component tipo="success" titulo="Transação realizada com sucesso" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
@@ -208,17 +210,60 @@
             </template>
 
             <template v-slot:conteudo>
-                <div class="form-group">
-                    <input-container-component titulo="Nome da modelo" id="atualizarNome" id-help="atualizarNomeHelp" texto-ajuda="Informe o nome da modelo">
-                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da modelo" >
+                
+                <div class="col form-group">
+                    <input-container-component titulo="Marca" id="idMarca" id-help="idMarcaHelp" texto-ajuda="Informe a marca">
+                        <select class="form-select form-control" aria-label=".form-select-sm example" id="idMarca"  v-model="$store.state.item.marca_id">
+                            <option selected>Abra o menu para selecionar a marca</option>
+                            <option v-for="m in marcas.data" :value="m.id" :key="m.id">{{m.nome}}</option>
+                        </select>
                     </input-container-component>
                 </div>
 
-                <div class="form-group">
-                    <input-container-component titulo="Imagem" id="atualizarImagem" id-help="atualizarImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
-                        <input type="file" class="form-control-file" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
+                <div class="col form-group">
+                    <input-container-component titulo="Nome do modelo" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome do modelo">
+                        <input type="text" class="form-control" aria-describedby="novoNomeHelp" placeholder="Nome do modelo" v-model="$store.state.item.nome">
                     </input-container-component>
                 </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Imagem" id="atualizarImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+                        <input type="file" class="form-control" id="atualizarImagem" aria-describedby="novoImagemHelp" @change="carregarImagem($event)">
+                    </input-container-component>
+                </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Numero de Portas" id="numero_portas" id-help="numero_portasHelp" texto-ajuda="Informe o numero de portas">
+                        <input type="number" class="form-control" aria-describedby="numero_portasHelp" placeholder="Numero de portas" v-model="$store.state.item.numero_portas" min="1" max="6">
+                    </input-container-component>
+                </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Numero de Lugares" id="lugares" id-help="lugaresHelp" texto-ajuda="Informe o numero de lugares">
+                        <input type="number" class="form-control" aria-describedby="lugaresHelp" placeholder="Numero de lugares" v-model="$store.state.item.lugares">
+                    </input-container-component>
+                </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="Air Bag" id="air_bag" id-help="air_bagHelp" texto-ajuda="Informe se tem Air Bags">
+                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="$store.state.item.air_bag">
+                            <option selected >Abra o menu para selecionar </option>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
+                <div class="col form-group">
+                    <input-container-component titulo="ABS" id="abs" id-help="absHelp" texto-ajuda="Informe se tem ABS">
+                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="$store.state.item.abs">
+                            <option selected >Abra o menu para selecionar</option>
+                            <option value="1">Sim</option>
+                            <option value="0">Não</option>
+                        </select>
+                    </input-container-component>
+                </div>
+
             </template>
 
             <template v-slot:rodape>
@@ -365,6 +410,70 @@
                         //errors.response.data.message
                     })
                 },
+            atualizar() {
+
+                let formData = new FormData();
+                formData.append('_method', 'patch')
+                formData.append('marca_id', this.$store.state.item.marca_id)
+                if(this.arquivoImagem[0]) {
+                    formData.append('imagem', this.arquivoImagem[0])
+                }
+                formData.append('nome', this.$store.state.item.nome)
+                formData.append('numero_portas', this.$store.state.item.numero_portas)
+                formData.append('lugares', this.$store.state.item.lugares)
+                formData.append('air_bag', this.$store.state.item.air_bag)
+                formData.append('abs', this.$store.state.item.abs)
+
+                let url = this.urlBase + '/' + this.$store.state.item.id
+
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+
+                axios.post(url, formData, config)
+                    .then(response => {
+                        console.log('sucesso')
+                        this.$store.state.transacao.status = 'sucesso'
+                        this.$store.state.transacao.mensagem = 'Registro de marca atualizado com sucesso!'
+                        //limpar o campo de seleção de arquivos
+                        atualizarImagem.value = ''
+                        this.carregarLista()
+                        this.carregarMarcas()
+                    })
+                    .catch(errors => {
+                        this.$store.state.transacao.status = 'erro'
+                        console.log('erro')
+                        console.log(errors.response)
+                        this.$store.state.transacao.mensagem = errors.response.data.message
+                        this.$store.state.transacao.dados = errors.response.data.errors
+                    })
+            },
+            remover() {
+                let confirmacao = confirm('Tem certeza que deseja remover esse registro?')
+
+                if(!confirmacao) {
+                    return false;
+                }
+
+                let formData = new FormData();
+                formData.append('_method', 'delete')
+
+                let url = this.urlBase + '/' + this.$store.state.item.id
+
+                axios.post(url, formData)
+                    .then(response => {                        
+                        this.$store.state.transacao.status = 'sucesso'
+                        this.$store.state.transacao.mensagem = response.data.msg
+                        this.carregarLista()
+                    })
+                    .catch(errors => {
+                        this.$store.state.transacao.status = 'erro'
+                        this.$store.state.transacao.mensagem = errors.response.data.erro
+                    })
+
+            },
             paginacao(l) {
                 if(l.url) {
                     //this.urlBase = l.url //ajustando a url de consulta com o parâmetro de página
