@@ -29,7 +29,7 @@ class ClienteController extends Controller
             $clienteRepository->selectAtributos($request->atributos);
         } 
 
-        return response()->json($clienteRepository->getResultado(), 200);
+        return response()->json($clienteRepository->getResultadoPaginado(5), 200);
     }
 
     /**
@@ -40,7 +40,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->cliente->rules());
+        $request->validate($this->cliente->rules(),$this->cliente->feedback());
 
         $cliente = $this->cliente->create([
             'nome' => $request->nome
@@ -93,10 +93,10 @@ class ClienteController extends Controller
                 }
             }
             
-            $request->validate($regrasDinamicas);
+            $request->validate($regrasDinamicas,$cliente->feedback());
 
         } else {
-            $request->validate($cliente->rules());
+            $request->validate($cliente->rules(),$cliente->feedback());
         }
         
         $cliente->fill($request->all());

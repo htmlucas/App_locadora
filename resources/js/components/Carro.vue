@@ -164,8 +164,8 @@
             <template v-slot:conteudo>
 
                  <div class="form-group">
-                    <input-container-component titulo="Modelo" id="modelo_id" id-help="idModeloHelp" texto-ajuda="Modelo do carro">
-                        <input type="text" class="form-control" :value="$store.state.item.modelo.nome" disabled>
+                    <input-container-component titulo="ID Modelo" id="modelo_id" id-help="idModeloHelp" texto-ajuda="ID do Modelo do carro">
+                        <input type="text" class="form-control" :value="$store.state.item.modelo_id" disabled>
                     </input-container-component>
                 </div>
 
@@ -203,7 +203,7 @@
             <template v-slot:conteudo v-if="$store.state.transacao.status != 'sucesso'">
                 <div class="form-group">
                     <input-container-component titulo="Modelo" id="modelo_id" id-help="idModeloHelp" texto-ajuda="Modelo do carro">
-                        <input type="text" class="form-control" :value="$store.state.item.modelo.nome" disabled>
+                        <input type="text" class="form-control" :value="$store.state.item.modelo_id" disabled>
                     </input-container-component>
                 </div>
 
@@ -451,8 +451,9 @@ export default {
             }
         },
         mounted() {
-            this.carregarLista()
             this.carregarModelos()
+            this.carregarLista()
+            
         }
 }
 </script>

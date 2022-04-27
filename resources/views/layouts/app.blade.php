@@ -35,11 +35,11 @@
                     <ul class="navbar-nav mr-auto">
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Clientes</a>
+                                <a class="nav-link" href="{{route('cliente')}}">Clientes</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Locações</a>
+                                <a class="nav-link" href="{{route('locacao')}}">Locações</a>
                             </li>
 
                             <li class="nav-item dropdown">

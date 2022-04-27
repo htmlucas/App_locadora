@@ -23,3 +23,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/marcas', function() {return view('app.marcas');})->name('marcas')->middleware('auth');
 Route::get('/modelos', function() {return view('app.modelos');})->name('modelos')->middleware('auth');
 Route::get('/carro', function() {return view('app.carro');})->name('carro')->middleware('auth');
+Route::get('/cliente', function() {return view('app.cliente');})->name('cliente')->middleware('auth');
+Route::get('/locacao', function() {return view('app.locacao');})->name('locacao')->middleware('auth');

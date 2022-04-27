@@ -9,11 +9,22 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome'];
+    protected $fillable = ['id','nome'];
 
     public function rules() {
         return [
-            'nome' => 'required'
+            'nome' => 'required|unique:clientes,nome'
         ];
+    }
+
+    public function feedback() {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'nome.unique' => 'O nome já existe',
+        ];
+    }
+    
+    public function locacao(){
+        return $this->belongsTo('App\Models\Locacao');
     }
 }

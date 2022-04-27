@@ -365,6 +365,7 @@
                 axios.get(url)
                     .then(response => {
                         this.modelos = response.data
+                        console.log(this.modelos.data)
                     })
                     .catch(errors => {
                         console.log(errors)

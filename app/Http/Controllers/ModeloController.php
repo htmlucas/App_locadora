@@ -58,7 +58,7 @@ class ModeloController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->modelo->rules());
+        $request->validate($this->modelo->rules(),$this->modelo->feedback());
 
         $imagem = $request->file('imagem');
         $imagem_urn = $imagem->store('imagens/modelos', 'public');
