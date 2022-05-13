@@ -10,8 +10,10 @@
                 </div>
             <div class="modal-body">
                 <div class="container">
-                    <slot name="alertas"></slot>
-                    <slot name="conteudo"></slot>
+                    <div class="row">
+                        <slot name="alertas"></slot>
+                        <slot name="conteudo"></slot>
+                    </div>
                 </div>
             </div>
                 <div class="modal-footer">

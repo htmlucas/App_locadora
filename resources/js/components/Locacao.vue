@@ -58,6 +58,13 @@
 
                 </card-component>
             </div>
+            <div class="col-md-12">
+                <card-component titulo ="">
+
+                </card-component>
+
+
+            </div>
         </div>
 
         <!-- início do modal de inclusão de modelo -->
@@ -217,58 +224,7 @@
 
             <template v-slot:conteudo>
                 
-                <div class="col form-group">
-                    <input-container-component titulo="Marca" id="idMarca" id-help="idMarcaHelp" texto-ajuda="Informe a marca">
-                        <select class="form-select form-control" aria-label=".form-select-sm example" id="idMarca"  v-model="$store.state.item.marca_id">
-                            <option selected>Abra o menu para selecionar a marca</option>
-                            <option v-for="m in marcas.data" :value="m.id" :key="m.id">{{m.nome}}</option>
-                        </select>
-                    </input-container-component>
-                </div>
-
-                <div class="col form-group">
-                    <input-container-component titulo="Nome do modelo" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome do modelo">
-                        <input type="text" class="form-control" aria-describedby="novoNomeHelp" placeholder="Nome do modelo" v-model="$store.state.item.nome">
-                    </input-container-component>
-                </div>
-
-                <div class="col form-group">
-                    <input-container-component titulo="Imagem" id="atualizarImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
-                        <input type="file" class="form-control" id="atualizarImagem" aria-describedby="novoImagemHelp" @change="carregarImagem($event)">
-                    </input-container-component>
-                </div>
-
-                <div class="col form-group">
-                    <input-container-component titulo="Numero de Portas" id="numero_portas" id-help="numero_portasHelp" texto-ajuda="Informe o numero de portas">
-                        <input type="number" class="form-control" aria-describedby="numero_portasHelp" placeholder="Numero de portas" v-model="$store.state.item.numero_portas" min="1" max="6">
-                    </input-container-component>
-                </div>
-
-                <div class="col form-group">
-                    <input-container-component titulo="Numero de Lugares" id="lugares" id-help="lugaresHelp" texto-ajuda="Informe o numero de lugares">
-                        <input type="number" class="form-control" aria-describedby="lugaresHelp" placeholder="Numero de lugares" v-model="$store.state.item.lugares">
-                    </input-container-component>
-                </div>
-
-                <div class="col form-group">
-                    <input-container-component titulo="Air Bag" id="air_bag" id-help="air_bagHelp" texto-ajuda="Informe se tem Air Bags">
-                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="$store.state.item.air_bag">
-                            <option selected >Abra o menu para selecionar </option>
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
-                        </select>
-                    </input-container-component>
-                </div>
-
-                <div class="col form-group">
-                    <input-container-component titulo="ABS" id="abs" id-help="absHelp" texto-ajuda="Informe se tem ABS">
-                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="$store.state.item.abs">
-                            <option selected >Abra o menu para selecionar</option>
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
-                        </select>
-                    </input-container-component>
-                </div>
+            
 
             </template>
 

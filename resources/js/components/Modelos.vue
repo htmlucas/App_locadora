@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <card-component titulo="Relação de Modelos">
+                <!-- <card-component titulo="Relação de Modelos">
 
                     <template v-slot:filtro>
                         <div class="d-flex justify-content-end">                     
@@ -53,6 +53,10 @@
                                 <button type="button" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalModelo">Adicionar</button>
                             </div>
                         </div>
+                    </template>
+                </card-component> -->
+                <card-component :dados="modelos.data" dataToggle='modal' dataTarget='#modalModeloVisualizar'>
+                    <template v-slot:conteudo>
                     </template>
                 </card-component>
             </div>
@@ -135,26 +139,9 @@
         <modal-component id="modalModeloVisualizar" titulo="Visualizar Modelo" modalSize="modal-lg">
             <template v-slot:alertas></template>
             <template v-slot:conteudo>
-                <input-container-component titulo="ID">
-                    <input type="text" class="form-control" :value="$store.state.item.id" disabled>
-                </input-container-component>
-
-                <input-container-component titulo="Id da marca">
-                    <input type="text" class="form-control" :value="$store.state.item.marca_id" disabled>
-                </input-container-component>
-
-                <input-container-component titulo="Marca">
-                    <input type="text" class="form-control" value="" disabled>
-                </input-container-component>
-
-                <input-container-component titulo="Modelo">
-                    <input type="text" class="form-control" value="" disabled>
-                </input-container-component>
-
-
-                <input-container-component titulo="Imagem">
+                <div class="col-md-12 text-center">
                     <img :src="'storage/'+$store.state.item.imagem" v-if="$store.state.item.imagem">
-                </input-container-component>
+                </div>
 
                 <input-container-component titulo="Portas">
                     <input type="text" class="form-control" :value="$store.state.item.numero_portas" disabled>
@@ -174,6 +161,7 @@
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
         <!-- fim do modal de inclusão de modelo -->
