@@ -1,11 +1,10 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                
+            <div class="container-fluid">
                 
                 <!-- início do card de busca -->
-                <card-component titulo="Busca de marcas">
+                <!-- <card-component titulo="Busca de marcas">
                     <template v-slot:conteudo>
                         <div class="form-row">
                             <div class="col mb-3">
@@ -24,12 +23,12 @@
                     <template v-slot:rodape>
                         <button type="submit" class="btn btn-primary btn-sm float-right" @click="pesquisar()">Pesquisar</button>
                     </template>
-                </card-component>
+                </card-component> -->
                 <!-- fim do card de busca -->
 
 
                 <!-- início do card de listagem de marcas -->
-                <card-component titulo="Relação de marcas">
+               <!--  <card-component titulo="Relação de marcas">
                     <template v-slot:conteudo>
                         <table-component 
                             :dados="marcas.data"
@@ -63,8 +62,11 @@
                             </div>
                         </div>
                     </template>
-                </card-component>
+                </card-component> -->
                 <!-- fim do card de listagem de marcas -->
+
+                <card-component :dados="marcas.data" dataToggle='modal' dataTarget='#modalMarcasVisualizar'>
+                </card-component>
             </div>
         </div>
 

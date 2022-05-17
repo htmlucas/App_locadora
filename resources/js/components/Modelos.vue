@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <!-- <card-component titulo="Relação de Modelos">
+        <div class="row">
+            <div class="container-fluid">
+               <!--  <card-component titulo="Relação de Modelos">
 
                     <template v-slot:filtro>
                         <div class="d-flex justify-content-end">                     
@@ -55,10 +55,9 @@
                         </div>
                     </template>
                 </card-component> -->
-                <card-component :dados="modelos.data" dataToggle='modal' dataTarget='#modalModeloVisualizar'>
-                    <template v-slot:conteudo>
-                    </template>
+                <card-component :dados="modelos.data">
                 </card-component>
+            
             </div>
          </div>
 

@@ -23,9 +23,11 @@ class ModeloController extends Controller
         $modeloRepository = new ModeloRepository($this->modelo);
 
         if($request->has('atributos_marca')) {
+            
             $atributos_marca = 'marca:id,'.$request->atributos_marca;
             $modeloRepository->selectAtributosRegistrosRelacionados($atributos_marca);
         } else {
+            
             $modeloRepository->selectAtributosRegistrosRelacionados('marca');
         }
 
@@ -37,8 +39,12 @@ class ModeloController extends Controller
             $modeloRepository->selectAtributos($request->atributos);
         } 
 
+        
+
         return response()->json($modeloRepository->getResultadoPaginado(5), 200);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -170,6 +176,15 @@ class ModeloController extends Controller
         ]);
         */
        
+    }
+
+    public function teste(){
+        //$modelo = Modelo::with('marcas');
+        $modelo = Modelo::with('marca')->get();
+
+        return view('teste',['a' => $modelo]);
+
+
     }
 
     /**
