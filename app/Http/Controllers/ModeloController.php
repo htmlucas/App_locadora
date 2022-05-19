@@ -41,7 +41,7 @@ class ModeloController extends Controller
 
         
 
-        return response()->json($modeloRepository->getResultadoPaginado(5), 200);
+        return response()->json($modeloRepository->getResultadoPaginado(6), 200);
     }
 
 

@@ -55,7 +55,10 @@
                         </div>
                     </template>
                 </card-component> -->
-                <card-component :dados="modelos.data">
+                <card-component :dados="modelos.data"  dataToggle='modal' dataTarget='#modalModeloVisualizar'>
+                    <template v-slot:footer>
+                         <button type="button"  class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalModelo">Adicionar</button>
+                    </template>
                 </card-component>
             
             </div>
@@ -71,7 +74,9 @@
 
             <template v-slot:conteudo>
 
-                    <div class="col form-group">
+                <div class="form-row">
+
+                    <div class="col-sm-12 form-group">
                         <input-container-component titulo="Marca" id="idMarca" id-help="idMarcaHelp" texto-ajuda="Informe a marca">
                             <select  class="form-select form-control" aria-label=".form-select-sm example" id="idMarca"  v-model="idMarca">
                                 <option selected >Abra o menu para selecionar a marca</option>
@@ -80,50 +85,65 @@
                         </input-container-component>
                     </div>
 
-                    <div class="col form-group">
+                </div>
+                <hr>
+                <div class="form-row">
+
+                     <div class="col-sm-4 form-group">
                         <input-container-component titulo="Nome do modelo" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome do modelo">
                             <input type="text" class="form-control" aria-describedby="novoNomeHelp" placeholder="Nome do modelo" v-model="novonomeModelo">
                         </input-container-component>
                     </div>
 
-                <div class="col form-group">
-                    <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
-                        <input type="file" class="form-control" id="novoImagem" aria-describedby="novoImagemHelp" @change="carregarImagem($event)">
-                    </input-container-component>
+                    <div class="col-sm-8 form-group">
+                        <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+                            <input type="file" class="form-control" id="novoImagem" aria-describedby="novoImagemHelp" @change="carregarImagem($event)">
+                        </input-container-component>
+                    </div>
+
                 </div>
 
-                <div class="col form-group">
-                    <input-container-component titulo="Numero de Portas" id="numero_portas" id-help="numero_portasHelp" texto-ajuda="Informe o numero de portas">
-                        <input type="number" class="form-control" aria-describedby="numero_portasHelp" placeholder="Numero de portas" v-model="numero_portas" min="1" max="6">
-                    </input-container-component>
+                <hr>
+
+                <div class="form-row">
+                    <div class="col-sm-6 form-group">
+                        <input-container-component titulo="Numero de Portas" id="numero_portas" id-help="numero_portasHelp" texto-ajuda="Informe o numero de portas">
+                            <input type="number" class="form-control" aria-describedby="numero_portasHelp" placeholder="Numero de portas" v-model="numero_portas" min="1" max="6">
+                        </input-container-component>
+                    </div>
+
+                    <div class=" col-sm-6 form-group">
+                        <input-container-component titulo="Numero de Lugares" id="lugares" id-help="lugaresHelp" texto-ajuda="Informe o numero de lugares">
+                            <input type="number" class="form-control" aria-describedby="lugaresHelp" placeholder="Numero de lugares" v-model="lugares">
+                        </input-container-component>
+                    </div>
                 </div>
 
-                <div class="col form-group">
-                    <input-container-component titulo="Numero de Lugares" id="lugares" id-help="lugaresHelp" texto-ajuda="Informe o numero de lugares">
-                        <input type="number" class="form-control" aria-describedby="lugaresHelp" placeholder="Numero de lugares" v-model="lugares">
-                    </input-container-component>
-                </div>
+                <hr>
 
-                <div class="col form-group">
-                    <input-container-component titulo="Air Bag" id="air_bag" id-help="air_bagHelp" texto-ajuda="Informe se tem Air Bags">
-                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="air_bag">
-                            <option selected >Abra o menu para selecionar </option>
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
-                        </select>
-                    </input-container-component>
-                </div>
+                <div class="form-row">
+                    <div class="col-sm-6 form-group">
+                        <input-container-component titulo="Air Bag" id="air_bag" id-help="air_bagHelp" texto-ajuda="Informe se tem Air Bags">
+                            <select class="form-select form-control" aria-label=".form-select-sm example" v-model="air_bag">
+                                <option selected >Abra o menu para selecionar </option>
+                                <option value="1">Sim</option>
+                                <option value="0">Não</option>
+                            </select>
+                        </input-container-component>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <input-container-component titulo="ABS" id="abs" id-help="absHelp" texto-ajuda="Informe se tem ABS">
+                            <select class="form-select form-control" aria-label=".form-select-sm example" v-model="abs">
+                                <option selected >Abra o menu para selecionar</option>
+                                <option value="1">Sim</option>
+                                <option value="0">Não</option>
+                            </select>
+                        </input-container-component>
+                    </div>
+                </div>                
 
                 
-                <div class="col form-group">
-                    <input-container-component titulo="ABS" id="abs" id-help="absHelp" texto-ajuda="Informe se tem ABS">
-                        <select class="form-select form-control" aria-label=".form-select-sm example" v-model="abs">
-                            <option selected >Abra o menu para selecionar</option>
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
-                        </select>
-                    </input-container-component>
-                </div>
 
             </template>
 
@@ -131,6 +151,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary" @click="salvar()">Salvar</button>
             </template>
+
         </modal-component>
         <!-- fim do modal de inclusão de modelo -->
 
@@ -142,24 +163,31 @@
                     <img :src="'storage/'+$store.state.item.imagem" v-if="$store.state.item.imagem">
                 </div>
 
-                <input-container-component titulo="Portas">
-                    <input type="text" class="form-control" :value="$store.state.item.numero_portas" disabled>
-                </input-container-component>
+                <div class="col form-group">
+                    <input-container-component titulo="Portas">
+                        <input type="text" class="form-control" :value="$store.state.item.numero_portas" disabled>
+                    </input-container-component>
+                </div>
 
-                <input-container-component titulo="Lugares">
-                    <input type="text" class="form-control" :value="$store.state.item.lugares" disabled>
-                </input-container-component>
+                <div class="col form-group">
+                    <input-container-component titulo="Lugares">
+                        <input type="text" class="form-control" :value="$store.state.item.lugares" disabled>
+                    </input-container-component>
+                </div>
+                <div class="col form-group">
+                    <input-container-component titulo="Air Bag">
+                        <input type="text" class="form-control" :value="$store.state.item.air_bag" disabled>
+                    </input-container-component>
+                </div>
 
-                <input-container-component titulo="Air Bag">
-                    <input type="text" class="form-control" :value="$store.state.item.air_bag" disabled>
-                </input-container-component>
-
-                <input-container-component titulo="Abs">
-                    <input type="text" class="form-control" :value="$store.state.item.abs" disabled>
-                </input-container-component>
+                <div class="col form-group">
+                    <input-container-component titulo="Abs">
+                        <input type="text" class="form-control" :value="$store.state.item.abs" disabled>
+                    </input-container-component>
+                </div>
             </template>
             <template v-slot:rodape>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" @click="fecharModal('modalModelo','modalModeloVisualizar')" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalModelo">Adicionar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
@@ -261,7 +289,16 @@
         <!-- fim do modal de atualização de modelo -->
 
 
-
+        <div class="d-flex justify-content-center">
+            <paginate-component>
+                <li v-for="l, key in marcas.links" :key="key" 
+                    :class="l.active ? 'page-item active' : 'page-item'" 
+                    @click="paginacao(l)"
+                >
+                    <a class="page-link" v-html="l.label"></a>
+                </li>
+            </paginate-component>
+        </div> 
 
 
     </div>
@@ -294,6 +331,11 @@
             }
         },
         methods:{
+            fecharModal(modalabre,modalfecha){
+                $('#'+modalabre).on('show.bs.modal', function (e) {
+                    $('#'+modalfecha).modal('hide')
+                })
+            },
             carregarMarcas() {
                 
                let url = this.urlBaseMarcas + '?' + this.urlPaginacao + this.urlFiltro

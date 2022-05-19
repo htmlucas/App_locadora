@@ -65,7 +65,7 @@
                 </card-component> -->
                 <!-- fim do card de listagem de marcas -->
 
-                <card-component :dados="marcas.data" dataToggle='modal' dataTarget='#modalMarcasVisualizar'>
+                <card-component :dados="marcas.data" dataToggle='modal' dataTarget='#modalMarcaVisualizar'>
                 </card-component>
             </div>
         </div>
@@ -96,6 +96,7 @@
             </template>
 
             <template v-slot:rodape>
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary" @click="salvar()">Salvar</button>
             </template>
@@ -103,26 +104,37 @@
         <!-- fim do modal de inclusão de marca -->
 
         <!-- início do modal de visualização de marca -->
-        <modal-component id="modalMarcaVisualizar" titulo="Visualizar marca">
+        <modal-component id="modalMarcaVisualizar" :titulo="$store.state.item.nome">
+            
             <template v-slot:alertas></template>
+
             <template v-slot:conteudo>
-                <input-container-component titulo="ID">
-                    <input type="text" class="form-control" :value="$store.state.item.id" disabled>
-                </input-container-component>
+                
+                    <div class="col-md-12 text-center">
+                        <img :src="'storage/'+$store.state.item.imagem" v-if="$store.state.item.imagem">
+                    </div>
 
-                <input-container-component titulo="Nome da marca">
-                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
-                </input-container-component>
+                    <div class="col form-group">
+                        <input-container-component titulo="ID">
+                            <input type="text" class="form-control" :value="$store.state.item.id" disabled>
+                        </input-container-component>
+                    </div>
 
-                <input-container-component titulo="Imagem">
-                    <img :src="'storage/'+$store.state.item.imagem" v-if="$store.state.item.imagem">
-                </input-container-component>
-
-                <input-container-component titulo="Data de criação">
-                    <input type="text" class="form-control" :value="$store.state.item.created_at" disabled>
-                </input-container-component>
+                    <div class="col form-group">
+                        <input-container-component titulo="Nome da marca">
+                            <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
+                        </input-container-component>
+                    </div>
+                    
+                    <div class="col form-group">
+                        <input-container-component titulo="Data de criação">
+                            <input type="text" class="form-control" :value="$store.state.item.created_at" disabled>
+                        </input-container-component>
+                    </div>
+                
             </template>
             <template v-slot:rodape>
+                <button type="button" @click="fecharModal('modalMarca','modalMarcaVisualizar')" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalMarca">Adicionar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
@@ -179,10 +191,24 @@
             </template>
         </modal-component>
         <!-- fim do modal de atualização de marca -->
+
+
+        <div class="d-flex justify-content-center">
+            <paginate-component>
+                <li v-for="l, key in marcas.links" :key="key" 
+                    :class="l.active ? 'page-item active' : 'page-item'" 
+                    @click="paginacao(l)"
+                >
+                    <a class="page-link" v-html="l.label"></a>
+                </li>
+            </paginate-component>
+        </div>  
+
     </div>
 </template>
 
 <script>
+
 import Paginate from './Paginate.vue'
     export default {
   components: { Paginate },
@@ -200,6 +226,11 @@ import Paginate from './Paginate.vue'
             }
         },
         methods: {
+            fecharModal(modalabre,modalfecha){
+                $('#'+modalabre).on('show.bs.modal', function (e) {
+                    $('#'+modalfecha).modal('hide')
+                })
+            },
             atualizar() {
 
                 let formData = new FormData();
@@ -342,4 +373,6 @@ import Paginate from './Paginate.vue'
             this.carregarLista()
         }
     }
+
+
 </script>

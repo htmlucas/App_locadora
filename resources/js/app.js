@@ -46,6 +46,7 @@ Vue.component('paginate-component', require('./components/Paginate.vue').default
 Vue.component('carro-component', require('./components/Carro.vue').default);
 Vue.component('cliente-component', require('./components/Cliente.vue').default);
 Vue.component('locacao-component', require('./components/Locacao.vue').default);
+Vue.component('imagem-component', require('./components/Imagem.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

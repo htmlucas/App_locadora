@@ -1,6 +1,6 @@
 <template>
-    <div class="modal fade" :id="id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div :class="mudarSize(modalSize)">
+    <div class="modal fade" :id="id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+        <div :class="mudarSize(modalSize)" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">{{titulo}}</h5>
@@ -10,10 +10,8 @@
                 </div>
             <div class="modal-body">
                 <div class="container">
-                    <div class="row">
                         <slot name="alertas"></slot>
                         <slot name="conteudo"></slot>
-                    </div>
                 </div>
             </div>
                 <div class="modal-footer">
