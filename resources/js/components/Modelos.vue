@@ -191,7 +191,7 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
-        <!-- fim do modal de inclusão de modelo -->
+        <!-- fim do modal de inclusão de modeloooooo -->
 
 
         <!-- início do modal de remoção de modelo -->
