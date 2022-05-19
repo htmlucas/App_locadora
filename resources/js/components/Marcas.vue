@@ -103,7 +103,7 @@
         </modal-component>
         <!-- fim do modal de inclusão de marca -->
 
-        <!-- início do modal de visualização de marcaa -->
+        <!-- início do modal de visualização de marca -->
         <modal-component id="modalMarcaVisualizar" :titulo="$store.state.item.nome">
             
             <template v-slot:alertas></template>
