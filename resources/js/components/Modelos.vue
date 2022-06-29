@@ -57,7 +57,6 @@
                 </card-component> -->
                 <card-component :dados="modelos.data"  dataToggle='modal' dataTarget='#modalModeloVisualizar'>
                     <template v-slot:footer>
-                         <button type="button"  class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalModelo">Adicionar</button>
                     </template>
                 </card-component>
             
@@ -188,6 +187,7 @@
             </template>
             <template v-slot:rodape>
                 <button type="button" @click="fecharModal('modalModelo','modalModeloVisualizar')" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalModelo">Adicionar</button>
+                <button type="button" @click="fecharModal('modalModeloAtualizar','modalModeloVisualizar')" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modalModeloAtualizar">Editar</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
             </template>
         </modal-component>
